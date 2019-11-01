@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<title>Cognito Auth JS SDK Sample</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/styleSheetStart.css">
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="js/amazon-cognito-auth.min.js"></script>
+	<script src="js/config.js"></script>
+	<!-- To enable the advanced security feature -->
+	<!-- <script src="https://amazon-cognito-assets.<region>.amazoncognito.com/amazon-cognito-advanced-security-data.min.js"></script> -->
+	<!-- E.g. -->
+	<!-- <script src="https://amazon-cognito-assets.us-east-1.amazoncognito.com/amazon-cognito-advanced-security-data.min.js"></script> -->
+</head>
+
+<body  onload="onLoad()">
+
+<div><p>HELLO</p></div>
+
+
+	<script>
+		// Operations when the web page is loaded.
+		function onLoad() {
+			//create user pool
+			var data = { UserPoolId : 'us-east-1_dkT1OJePA',
+					ClientId : 'qf9np6ffr7u6iqa50dtumm0p7'};
+			
+			var userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
+		}
+	</script>
+</body>
+</html>
