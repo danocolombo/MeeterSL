@@ -16,23 +16,33 @@
 
     <h1 class="h3 mb-3 font-weight-normal" id="titleheader">Register an Account</h1>
 	
-	<input type="personalname" class="form-control" id="personalnameRegister" placeholder="Name" pattern=".*" required>
-    <input type="email" class="form-control" id="emailInputRegister" placeholder="Email" pattern=".*" required>
-	<input type="password" class="form-control" id="passwordInputRegister" placeholder="Password" pattern=".*" required>
-    <input type="password" class="form-control" id="confirmationpassword" placeholder="Confirm Password" pattern=".*" required>
+	
+	<input type="givenname" class="form-control" id="givennameInputRegister" placeholder="First Name" pattern=".*" required><br/>
+	<input type="familyname" class="form-control" id="familynameInputRegister" placeholder="Last Name" pattern=".*" required><br/>
+    <input type="email" class="form-control" id="emailInputRegister" placeholder="Email" pattern=".*" required><br/><br/>
+    <input type="phonenumber" class="form-control" id="phonenumberInputRegister" placeholder="Phone Number" pattern=".*" required><br/>
+    <input type="username" class="form-control" id="usernameInputRegister" placeholder="desired login" pattern=".*" required><br/>
+	<input type="password" class="form-control" id="passwordInputRegister" placeholder="Password" pattern=".*" required><br/>
+    <input type="password" class="form-control" id="confirmationpassword" placeholder="Confirm Password" pattern=".*" required><br/>
 	<button id="mainbutton" class="btn btn-lg btn-primary btn-block" type="button" onclick="registerButton()" >Register</button>
 
 	<script>
 
-		var username;
+		var userName;
 		var password;
-		var personalname;
+		var givenName;
+		var familyName;
+		var email;
+		var phoneNumber;
 		var poolData;
 			
 	  function registerButton() {
 		
-		personalnamename =  document.getElementById("personalnameRegister").value;	
-		username = document.getElementById("emailInputRegister").value;
+		givenName =  document.getElementById("givennameInputRegister").value;
+		familyName = document.getElementById("familynameInputRegister").value;
+		emailAddress = document.getElementById("emailInputRegister").value;
+		phoneNumber = document.getElementById("phonenumberInputRegister").value;	
+		userName = document.getElementById("usernameInputRegister").value;
 		
 		if (document.getElementById("passwordInputRegister").value != document.getElementById("confirmationpassword").value) {
 			alert("Passwords Do Not Match!")
@@ -48,25 +58,38 @@
 		var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
 		var attributeList = [];
+
+		var dataGivenName = {
+			Name: 'given name',
+			Value : givenName,
+		}
+		var dataFamilyName = {
+			Name: 'family name',
+			Value : familyName,
+		}
 		
 		var dataEmail = {
 			Name : 'email', 
-			Value : username, //get from form field
+			Value : emailAddress,
 		};
 		
-		var dataPersonalName = {
-			Name : 'name', 
-			Value : personalname, //get from form field
+		var dataPhoneNumber = {
+			Name : 'phone number', 
+			Value : phoneNumber,
 		};
 
+		//make attributes
+		var attributeGivenName = new AmazonCognitoIdentity.CognitoUserAttribute(dataGivenName);
+		var attributeFamilyName = new AmazonCognitoIdentity.CognitoUserAttribute(dataFamilyName);
 		var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail);
-		var attributePersonalName = new AmazonCognitoIdentity.CognitoUserAttribute(dataPersonalName);
+		var attributePhoneNumber = new AmazonCognitoIdentity.CognitoUserAttribute(dataPhoneNumber);
 		
-		
+		attributeList.push(attributeGivenName);
+		attributeList.push(attributeFamilyName);
 		attributeList.push(attributeEmail);
-		attributeList.push(attributePersonalName);
+		attributeList.push(attributePhoneNumber);
 
-		userPool.signUp(username, password, attributeList, null, function(err, result){
+		userPool.signUp(userName, password, attributeList, null, function(err, result){
 			if (err) {
 				alert(err.message || JSON.stringify(err));
 				return;
